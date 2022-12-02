@@ -18,7 +18,6 @@ class Stats:
 
 
 class Shape:
-
     ROCK = Stats(1, 'ROCK')
     PAPER = Stats(2, 'PAPER')
     SCISSORS = Stats(3, 'SCISSORS')
