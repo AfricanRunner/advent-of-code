@@ -91,14 +91,16 @@ def reconstruct_path(came_from: dict[Vec, Vec], current: Vec) -> list[Vec]:
     return reversed(path)
 
 
-def a_star(start: Vec, goal: Vec, graph: Graph) -> list[Vec]:
+def a_star(starts: list[Vec], goal: Vec, graph: Graph) -> list[Vec]:
     open_set: list[Vec] = []
-    heapq.heappush(open_set, Node(start, 0))
+    for start in starts:
+        heapq.heappush(open_set, Node(start, 0))
 
     came_from: dict[Vec, Vec] = {}
 
     g_score: dict[Vec, float] = {}
-    g_score[start] = 0
+    for start in starts:
+        g_score[start] = 0
 
     while open_set:
         current = heapq.heappop(open_set)
@@ -121,12 +123,8 @@ def main(input: list[str]):
     end = graph.get_end()
     starts = graph.get_starting_positions()
 
-    # Could optimize this further by removing starts that have
-    # already been traversed by a-star
-    paths = [list(a_star(start, end, graph)) for start in starts]
-    shortest_path = min([len(path) for path in paths if path])
-
-    print(shortest_path - 1)
+    shortest_path = list(a_star(starts, end, graph))
+    print(len(shortest_path) - 1)
 
 
 if __name__ == '__main__':
